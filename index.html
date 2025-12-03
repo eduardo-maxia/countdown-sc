@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown - Viagem Santa Catarina 🏖️</title>
+    <title>Trip to Santa Catarina 🚗</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
         
+        :root {
+            --sky-blue: #A7C8E8;
+            --mountain-blue: #6C8BAA;
+            --forest-dark: #2E4E32;
+            --forest-medium: #4F7A4A;
+            --grass-green: #8BB26A;
+            --vintage-beige: #E7D7B7;
+            --car-red: #C8322A;
+            --luggage-brown: #8A5C3A;
+            --retro-black: #2A2A2A;
+            --aged-white: #F7F1E7;
+            --road-gray: #4E4E4E;
+            --soft-blue-gray: #C3D1D8;
+            --soft-sand: #F1E6D4;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -17,18 +33,55 @@
         body {
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
-        } 
-
-        .gradient-bg {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            background: linear-gradient(135deg, var(--sky-blue) 0%, var(--mountain-blue) 50%, var(--soft-blue-gray) 100%);
+            background-attachment: fixed;
+            position: relative;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Background Image Placeholder - sutil e discreto */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cpath d="M10 40 L30 20 L50 30 L70 10 L90 25 L90 90 L10 90 Z" fill="%234F7A4A" opacity="0.08"/%3E%3Cpath d="M20 50 Q30 40, 40 50 T60 50" stroke="%238A5C3A" stroke-width="2" opacity="0.1"/%3E%3Ccircle cx="80" cy="20" r="8" fill="%23E7D7B7" opacity="0.15"/%3E%3C/g%3E%3C/svg%3E');
+            background-size: 200px;
+            background-repeat: repeat;
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            body::before {
+                background-size: 400px;
+            }
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .vintage-gradient {
+            background: linear-gradient(to bottom, 
+                rgba(231, 215, 183, 0.95) 0%,
+                rgba(241, 230, 212, 0.9) 100%);
+            animation: subtleGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes subtleGlow {
+            0%, 100% { box-shadow: 0 5px 20px rgba(46, 78, 50, 0.3); }
+            50% { box-shadow: 0 8px 30px rgba(46, 78, 50, 0.4); }
+        }
+
+        @media (min-width: 768px) {
+            @keyframes subtleGlow {
+                0%, 100% { box-shadow: 0 10px 40px rgba(46, 78, 50, 0.3); }
+                50% { box-shadow: 0 15px 50px rgba(46, 78, 50, 0.4); }
+            }
         }
 
         .float {
@@ -37,7 +90,7 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
 
         .pulse-slow {
@@ -45,63 +98,101 @@
         }
 
         .countdown-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, var(--aged-white) 0%, var(--vintage-beige) 100%);
+            border: 2px solid var(--forest-medium);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(42, 42, 42, 0.2);
         }
 
-        .countdown-box:hover {
-            transform: scale(1.05) rotate(-2deg);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        @media (min-width: 768px) {
+            .countdown-box {
+                border: 3px solid var(--forest-medium);
+                box-shadow: 0 8px 20px rgba(42, 42, 42, 0.2);
+            }
         }
 
-        .wave {
+        @media (hover: hover) {
+            .countdown-box:hover {
+                transform: scale(1.08) translateY(-5px);
+                background: linear-gradient(135deg, var(--vintage-beige) 0%, var(--aged-white) 100%);
+                box-shadow: 0 12px 30px rgba(200, 50, 42, 0.3);
+                border-color: var(--car-red);
+            }
+        }
+
+        .road-decoration {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 100px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E");
-            background-size: cover;
-            animation: wave 10s linear infinite;
+            height: 120px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--road-gray) 0px,
+                var(--road-gray) 40px,
+                transparent 40px,
+                transparent 60px
+            );
+            opacity: 0.2;
+            z-index: 0;
         }
 
-        @keyframes wave {
-            0% { background-position-x: 0; }
-            100% { background-position-x: 1200px; }
-        }
-
-        .sparkle {
+        .mountain-silhouette {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            animation: sparkle 2s ease-in-out infinite;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-bottom: 100px solid rgba(46, 78, 50, 0.15);
+            animation: mountainFloat 20s ease-in-out infinite;
         }
 
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
+        @media (min-width: 768px) {
+            .mountain-silhouette {
+                border-left: 150px solid transparent;
+                border-right: 150px solid transparent;
+                border-bottom: 200px solid rgba(46, 78, 50, 0.15);
+            }
         }
 
-        .beach-icon {
-            font-size: 4rem;
-            animation: bounce 2s ease-in-out infinite;
+        @keyframes mountainFloat {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.25; }
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        .car-icon {
+            font-size: 3rem;
+            animation: carDrive 4s ease-in-out infinite;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        @media (min-width: 768px) {
+            .car-icon {
+                font-size: 4rem;
+                filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.3));
+            }
+        }
+
+        @keyframes carDrive {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(10px) rotate(-2deg); }
+            75% { transform: translateX(-10px) rotate(2deg); }
         }
 
         .number {
-            font-size: 4rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+            color: var(--retro-black);
+            text-shadow: 2px 2px 4px rgba(200, 50, 42, 0.2);
             animation: numberPop 0.5s ease;
+        }
+
+        @media (min-width: 768px) {
+            .number {
+                font-size: 4rem;
+                text-shadow: 3px 3px 6px rgba(200, 50, 42, 0.2);
+            }
         }
 
         @keyframes numberPop {
@@ -111,18 +202,24 @@
         }
 
         .label {
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.9;
+            letter-spacing: 1px;
+            color: var(--forest-dark);
+            font-weight: 600;
+        }
+
+        @media (min-width: 768px) {
+            .label {
+                font-size: 0.9rem;
+                letter-spacing: 2px;
+            }
         }
 
         .confetti {
             position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f0f;
-            position: absolute;
+            width: 12px;
+            height: 12px;
             animation: confetti-fall 3s linear infinite;
         }
 
@@ -134,10 +231,18 @@
         }
 
         .title {
-            font-size: 3.5rem;
+            font-size: 2rem;
             font-weight: 800;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            color: var(--forest-dark);
+            text-shadow: 2px 2px 5px rgba(247, 241, 231, 0.8);
             animation: titleSlide 1s ease-out;
+        }
+
+        @media (min-width: 768px) {
+            .title {
+                font-size: 3.5rem;
+                text-shadow: 3px 3px 8px rgba(247, 241, 231, 0.8);
+            }
         }
 
         @keyframes titleSlide {
@@ -153,6 +258,8 @@
 
         .subtitle {
             animation: subtitleSlide 1s ease-out 0.3s both;
+            color: var(--car-red);
+            font-weight: 700;
         }
 
         @keyframes subtitleSlide {
@@ -166,54 +273,108 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .title { font-size: 2rem; }
-            .number { font-size: 2.5rem; }
-            .beach-icon { font-size: 2.5rem; }
+        .tree-decoration {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.15;
+            animation: treeSwing 5s ease-in-out infinite;
+        }
+
+        @media (min-width: 768px) {
+            .tree-decoration {
+                font-size: 3rem;
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes treeSwing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .photo-placeholder {
+            background: linear-gradient(135deg, 
+                rgba(139, 178, 106, 0.15) 0%,
+                rgba(79, 122, 74, 0.1) 50%,
+                rgba(46, 78, 50, 0.15) 100%);
+            border: 3px solid var(--forest-medium);
+            border-radius: 15px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .photo-placeholder {
+                border: 4px solid var(--forest-medium);
+                border-radius: 20px;
+                min-height: 250px;
+                font-size: 5rem;
+            }
+        }
+
+        @media (hover: hover) {
+            .photo-placeholder:hover {
+                opacity: 0.5;
+                transform: scale(1.02);
+            }
         }
     </style>
 </head>
-<body class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
-    <!-- Sparkles decorativos -->
-    <div id="sparkles-container"></div>
+<body class="min-h-screen flex items-center justify-center relative">
+    <!-- Decorações de fundo -->
+    <div class="tree-decoration" style="left: 5%; top: 10%;">🌲</div>
+    <div class="tree-decoration" style="right: 8%; top: 15%; animation-delay: 1s;">🌲</div>
+    <div class="tree-decoration" style="left: 10%; bottom: 20%; animation-delay: 2s;">🌳</div>
+    <div class="tree-decoration" style="right: 15%; bottom: 25%; animation-delay: 1.5s;">🌳</div>
     
-    <!-- Wave animation -->
-    <div class="wave"></div>
+    <div class="mountain-silhouette" style="left: 10%;"></div>
+    <div class="mountain-silhouette" style="right: 15%; animation-delay: 3s;"></div>
+    
+    <div class="road-decoration"></div>
 
-    <div class="container mx-auto px-4 py-8 relative z-10">
-        <div class="text-center text-white">
+    <div class="container main-container mx-auto px-3 py-4 relative z-10">
+        <div class="vintage-gradient rounded-2xl shadow-2xl p-4 md:p-8 lg:p-12 max-w-6xl mx-auto">
             <!-- Header -->
-            <div class="mb-12">
-                <div class="beach-icon mb-4">🏖️ 🌴 ⛱️</div>
-                <h1 class="title mb-4">Viagem em Família</h1>
-                <h2 class="subtitle text-2xl md:text-4xl font-semibold mb-2">Santa Catarina</h2>
-                <p class="text-lg md:text-xl opacity-90">13 de Dezembro de 2025</p>
+            <div class="mb-6 md:mb-12 text-center">
+                <div class="car-icon mb-3 md:mb-6">🚗💨</div>
+                <h1 class="title mb-2 md:mb-4">Trip to Santa Catarina</h1>
+                <p class="text-base md:text-xl font-semibold" style="color: var(--forest-dark);">13 de Dezembro de 2025</p>
+            </div>
+
+            <!-- Photo Placeholder -->
+            <div class="photo-placeholder mb-6 md:mb-10">
+              <img src="/poster.jpg" alt="Foto da Viagem" class="w-full h-full object-cover rounded-xl md:rounded-2xl"/>
             </div>
 
             <!-- Countdown -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto mb-8">
-                <div class="countdown-box rounded-2xl p-6 md:p-8 float">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
+                <div class="countdown-box rounded-xl md:rounded-2xl p-4 md:p-8 float">
                     <div class="number" id="days">--</div>
                     <div class="label">Dias</div>
                 </div>
-                <div class="countdown-box rounded-2xl p-6 md:p-8 float" style="animation-delay: 0.2s;">
+                <div class="countdown-box rounded-xl md:rounded-2xl p-4 md:p-8 float" style="animation-delay: 0.2s;">
                     <div class="number" id="hours">--</div>
                     <div class="label">Horas</div>
                 </div>
-                <div class="countdown-box rounded-2xl p-6 md:p-8 float" style="animation-delay: 0.4s;">
+                <div class="countdown-box rounded-xl md:rounded-2xl p-4 md:p-8 float" style="animation-delay: 0.4s;">
                     <div class="number" id="minutes">--</div>
                     <div class="label">Minutos</div>
                 </div>
-                <div class="countdown-box rounded-2xl p-6 md:p-8 float" style="animation-delay: 0.6s;">
+                <div class="countdown-box rounded-xl md:rounded-2xl p-4 md:p-8 float" style="animation-delay: 0.6s;">
                     <div class="number" id="seconds">--</div>
                     <div class="label">Segundos</div>
                 </div>
             </div>
 
             <!-- Message -->
-            <div class="pulse-slow">
-                <p class="text-xl md:text-2xl font-semibold" id="message">
-                    Contando os segundos para essa aventura! 🎉
+            <div class="pulse-slow text-center">
+                <p class="text-base md:text-2xl font-bold" style="color: var(--car-red);" id="message">
+                    Contando os segundos para essa aventura! 🎒
                 </p>
             </div>
         </div>
@@ -264,22 +425,9 @@
             }, 10);
         }
 
-        // Criar sparkles decorativos
-        function createSparkles() {
-            const container = document.getElementById('sparkles-container');
-            for (let i = 0; i < 20; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 2 + 's';
-                container.appendChild(sparkle);
-            }
-        }
-
         // Criar confetti quando a viagem chegar
         function createConfetti() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f7dc6f', '#bb8fce'];
+            const colors = ['#C8322A', '#8A5C3A', '#4F7A4A', '#8BB26A', '#A7C8E8'];
             setInterval(() => {
                 for (let i = 0; i < 5; i++) {
                     const confetti = document.createElement('div');
@@ -318,7 +466,6 @@
         }
 
         // Inicializar
-        createSparkles();
         updateCountdown();
         
         // Atualizar a cada segundo
