@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown - Viagem Santa Catarina 🏖️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .countdown-box:hover {
+            transform: scale(1.05) rotate(-2deg);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E");
+            background-size: cover;
+            animation: wave 10s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1200px; }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .beach-icon {
+            font-size: 4rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .number {
+            font-size: 4rem;
+            font-weight: 800;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+            animation: numberPop 0.5s ease;
+        }
+
+        @keyframes numberPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            animation: titleSlide 1s ease-out;
+        }
+
+        @keyframes titleSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            animation: subtitleSlide 1s ease-out 0.3s both;
+        }
+
+        @keyframes subtitleSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 2rem; }
+            .number { font-size: 2.5rem; }
+            .beach-icon { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+    <!-- Sparkles decorativos -->
+    <div id="sparkles-container"></div>
+    
+    <!-- Wave animation -->
+    <div class="wave"></div>
+
+    <div class="container mx-auto px-4 py-8 relative z-10">
+        <div class="text-center text-white">
+            <!-- Header -->
+            <div class="mb-12">
+                <div class="beach-icon mb-4">🏖️ 🌴 ⛱️</div>
+                <h1 class="title mb-4">Viagem em Família</h1>
+                <h2 class="subtitle text-2xl md:text-4xl font-semibold mb-2">Santa Catarina</h2>
+                <p class="text-lg md:text-xl opacity-90">13 de Dezembro de 2025</p>
+            </div>
+
+            <!-- Countdown -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto mb-8">
+                <div class="countdown-box rounded-2xl p-6 md:p-8 float">
+                    <div class="number" id="days">--</div>
+                    <div class="label">Dias</div>
+                </div>
+                <div class="countdown-box rounded-2xl p-6 md:p-8 float" style="animation-delay: 0.2s;">
+                    <div class="number" id="hours">--</div>
+                    <div class="label">Horas</div>
+                </div>
+                <div class="countdown-box rounded-2xl p-6 md:p-8 float" style="animation-delay: 0.4s;">
+                    <div class="number" id="minutes">--</div>
+                    <div class="label">Minutos</div>
+                </div>
+                <div class="countdown-box rounded-2xl p-6 md:p-8 float" style="animation-delay: 0.6s;">
+                    <div class="number" id="seconds">--</div>
+                    <div class="label">Segundos</div>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div class="pulse-slow">
+                <p class="text-xl md:text-2xl font-semibold" id="message">
+                    Contando os segundos para essa aventura! 🎉
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data da viagem
+        const tripDate = new Date('2025-12-13T00:00:00').getTime();
+
+        // Elementos
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const messageEl = document.getElementById('message');
+
+        // Função para atualizar o countdown
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = tripDate - now;
+
+            if (distance < 0) {
+                daysEl.textContent = '00';
+                hoursEl.textContent = '00';
+                minutesEl.textContent = '00';
+                secondsEl.textContent = '00';
+                messageEl.textContent = 'A viagem chegou! 🎊 Aproveitem muito! 🏖️';
+                messageEl.classList.add('text-3xl');
+                createConfetti();
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Adiciona zero à esquerda se necessário
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+
+            // Trigger animation
+            secondsEl.style.animation = 'none';
+            setTimeout(() => {
+                secondsEl.style.animation = 'numberPop 0.5s ease';
+            }, 10);
+        }
+
+        // Criar sparkles decorativos
+        function createSparkles() {
+            const container = document.getElementById('sparkles-container');
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Criar confetti quando a viagem chegar
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f7dc6f', '#bb8fce'];
+            setInterval(() => {
+                for (let i = 0; i < 5; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
+            }, 300);
+        }
+
+        // Mensagens motivacionais baseadas no tempo restante
+        function updateMessage(days) {
+            const messages = {
+                0: 'É HOJE! 🎊 A aventura começa! 🏖️',
+                1: 'AMANHÃ! Já está arrumando as malas? 🎒',
+                2: 'Faltam só 2 dias! Quase lá! 🚗',
+                3: 'Faltam 3 dias! A empolgação está no ar! ✈️',
+                5: 'Menos de uma semana! 🎉',
+                7: 'Uma semana para a aventura! 🌊',
+                10: 'Faltam 10 dias! Contagem regressiva acelerada! ⏰',
+            };
+
+            for (let threshold of Object.keys(messages).sort((a, b) => a - b)) {
+                if (days <= parseInt(threshold)) {
+                    messageEl.textContent = messages[threshold];
+                    return;
+                }
+            }
+        }
+
+        // Inicializar
+        createSparkles();
+        updateCountdown();
+        
+        // Atualizar a cada segundo
+        setInterval(() => {
+            updateCountdown();
+            const days = Math.floor((tripDate - new Date().getTime()) / (1000 * 60 * 60 * 24));
+            updateMessage(days);
+        }, 1000);
+    </script>
+</body>
+</html>
